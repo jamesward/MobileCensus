@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx">
+  
+  <fx:Script>
+    private var startRequestTime:Number;
+    private var startRenderTime:Number;
+    private var requestTime:Number = 0;
+    private var renderTime:Number = 0;
+  </fx:Script>
+  
+  <fx:Declarations>
+    <s:RemoteObject id="ro" destination="census-ro" endpoint="http://www.jamesward.com/census/messagebroker/amf?id=flex_amf3&amp;gzip=true">
+      <s:result>
+        startRenderTime = new Date().time;
+        requestTime = startRenderTime - startRequestTime;
+        dg.dataProvider = event.result;
+      </s:result>
+    </s:RemoteObject>
+  </fx:Declarations>
+  
+  <fx:Style>
+    @namespace mx "library://ns.adobe.com/flex/mx";
+    
+    mx|ScrollBar {
+      upArrowSkin: ClassReference("WideScrollArrowSkin");
+      downArrowSkin: ClassReference("WideScrollArrowSkin");
+      thumbSkin: ClassReference("WideScrollThumbSkin");
+      trackSkin: ClassReference("WideScrollTrackSkin");
+    }
+  </fx:Style>
+  
+  <s:layout>
+    <s:VerticalLayout/>
+  </s:layout>
+  
+  <s:ButtonBar id="bb" width="100%" fontSize="24" selectedIndex="-1" height="50">
+    <s:dataProvider>
+      <s:ArrayCollection>
+        <fx:Object label="2000 rows" data="2000"/>
+        <fx:Object label="5000 rows" data="5000"/>
+        <fx:Object label="20000 rows" data="20000"/>
+      </s:ArrayCollection>
+    </s:dataProvider>
+    <s:change>
+      requestTime = 0;
+      renderTime = 0;
+      
+      l.text = "Test Running...";
+      
+      dg.dataProvider = [];
+      
+      startRequestTime = new Date().time;
+      ro.getElements(0, bb.selectedItem.data);
+    </s:change>
+  </s:ButtonBar>
+  
+  <mx:Label id="l" fontSize="18"/>
+  
+  <mx:DataGrid id="dg" width="100%" height="100%" fontSize="14" headerHeight="50" rowHeight="30" liveScrolling="false" draggableColumns="false">
+    <mx:updateComplete>
+      <![CDATA[
+      var now:Number = new Date().time;
+      
+      if ((requestTime != 0) && (renderTime == 0))
+      {
+      renderTime = now - startRenderTime;
+      
+      l.text = "Request Time = " + requestTime + "ms | Render Time = " + renderTime + "ms";
+      }
+      ]]>
+    </mx:updateComplete>
+    <mx:columns>
+      <mx:DataGridColumn dataField="id"/>
+      <mx:DataGridColumn dataField="age"/>
+      <mx:DataGridColumn dataField="classOfWorker"/>
+      <mx:DataGridColumn dataField="education"/>
+      <mx:DataGridColumn dataField="maritalStatus"/>
+      <mx:DataGridColumn dataField="race"/>
+      <mx:DataGridColumn dataField="sex"/>
+    </mx:columns>
+  </mx:DataGrid>
+  
+</s:Application>
