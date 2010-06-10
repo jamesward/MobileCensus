@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
                xmlns:s="library://ns.adobe.com/flex/spark"
-               xmlns:mx="library://ns.adobe.com/flex/mx">
+               xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:local="*">
   
   <fx:Script>
     private var startRequestTime:Number;
@@ -44,22 +44,25 @@
       </s:ArrayCollection>
     </s:dataProvider>
     <s:change>
-      requestTime = 0;
-      renderTime = 0;
-      
-      l.text = "Test Running...";
-      
-      dg.dataProvider = [];
-      
-      startRequestTime = new Date().time;
-      ro.getElements(0, bb.selectedItem.data);
+      if (bb.selectedItem != null)
+      {
+        requestTime = 0;
+        renderTime = 0;
+        
+        l.text = "Test Running...";
+        
+        dg.dataProvider = [];
+        
+        startRequestTime = new Date().time;
+        ro.getElements(0, bb.selectedItem.data);
+      }
     </s:change>
   </s:ButtonBar>
   
   <mx:Label id="l" fontSize="18"/>
   
-  <mx:DataGrid id="dg" width="100%" height="100%" fontSize="14" headerHeight="50" rowHeight="30" liveScrolling="false" draggableColumns="false">
-    <mx:updateComplete>
+  <local:FasterSortingDataGrid id="dg" width="100%" height="100%" fontSize="14" headerHeight="50" rowHeight="30" liveScrolling="false" draggableColumns="false">
+    <local:updateComplete>
       <![CDATA[
       var now:Number = new Date().time;
       
@@ -70,8 +73,8 @@
       l.text = "Request Time = " + requestTime + "ms | Render Time = " + renderTime + "ms";
       }
       ]]>
-    </mx:updateComplete>
-    <mx:columns>
+    </local:updateComplete>
+    <local:columns>
       <mx:DataGridColumn dataField="id"/>
       <mx:DataGridColumn dataField="age"/>
       <mx:DataGridColumn dataField="classOfWorker"/>
@@ -79,7 +82,7 @@
       <mx:DataGridColumn dataField="maritalStatus"/>
       <mx:DataGridColumn dataField="race"/>
       <mx:DataGridColumn dataField="sex"/>
-    </mx:columns>
-  </mx:DataGrid>
+    </local:columns>
+  </local:FasterSortingDataGrid>
   
 </s:Application>
