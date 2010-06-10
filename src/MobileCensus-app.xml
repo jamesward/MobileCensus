@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<application xmlns="http://ns.adobe.com/air/application/2.0">
+<application xmlns="http://ns.adobe.com/air/application/2.5">
 	<id>MobileCensus</id>
 	<filename>MobileCensus</filename>
 	<name>Mobile Census</name>
-	<version>1</version>
+	<versionNumber>1</versionNumber>
 	<initialWindow>
 		<content>MobileCensus.swf</content>
 		<visible>true</visible>
