@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <application xmlns="http://ns.adobe.com/air/application/2.5">
-	<id>MobileCensus</id>
-	<filename>MobileCensus</filename>
-	<name>Mobile Census</name>
-	<versionNumber>1</versionNumber>
-	<initialWindow>
-		<content>MobileCensus.swf</content>
-		<visible>true</visible>
-		<autoOrients>true</autoOrients>
-	</initialWindow>
-	<icon>
+  <id>MobileCensus</id>
+  <filename>MobileCensus</filename>
+  <name>Mobile Census</name>
+  <versionNumber>1</versionNumber>
+  <initialWindow>
+    <content>MobileCensus.swf</content>
+    <visible>true</visible>
+    <autoOrients>true</autoOrients>
+  </initialWindow>
+  <icon>
     <image16x16>icons/16.png</image16x16>
     <image32x32>icons/32.png</image32x32>
     <image48x48>icons/48.png</image48x48>
   </icon>
+  <android>
+    <manifestAdditions>
+      <manifest>
+        <data>
+          <![CDATA[
+          <uses-permission android:name="android.permission.INTERNET"/>
+          ]]>
+        </data>
+      </manifest>
+    </manifestAdditions>
+  </android>
 </application>
